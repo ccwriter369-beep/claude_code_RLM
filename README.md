@@ -115,6 +115,29 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 
 **Key finding**: Sonnet 8-pass beats Opus blind (92 vs 34 findings) at the same cost (~$4). Focus beats power. Opus adds value as a closer, not a replacement.
 
+### Ground truth: Juice Shop has 111 known challenges
+
+| Category | Known | Static Analysis Coverage |
+|----------|-------|------------------------|
+| Injection (SQLi, NoSQLi, SSTI) | 11 | Strong — all vectors found |
+| Broken Access Control | 11 | Strong — IDOR, path traversal, missing auth |
+| Broken Authentication | 9 | Strong — MD5, hardcoded keys, password reset |
+| XSS (DOM, reflected, stored) | 9 | Partial — stored vectors found, DOM/reflected need browser |
+| Sensitive Data Exposure | 16 | Strong — config leak, hash leak, API keys |
+| Vulnerable Components | 9 | Strong — outdated deps, known CVEs |
+| Cryptographic Issues | 5 | Strong — weak hashing, hardcoded secrets |
+| XXE | 2 | Full |
+| Security Misconfiguration | 4 | Full |
+| Insecure Deserialization | 3 | Strong — vm RCE, YAML load |
+| Improper Input Validation | 12 | Partial — server-side found, client-side needs browser |
+| Unvalidated Redirects | 2 | Full |
+| Broken Anti Automation | 4 | Not coverable — requires runtime interaction |
+| Observability Failures | 4 | Partial — exposed metrics/logs found |
+| Security through Obscurity | 3 | Not coverable — steganography, hidden content |
+| Miscellaneous | 7 | Not coverable — chatbot manipulation, scoreboard |
+
+**Static analysis covers ~75 of 111 challenges** (the ones with server-side code signatures). The remaining ~36 require runtime interaction (CAPTCHA bypass, DOM XSS, chatbot abuse, steganography) or client-side browser testing.
+
 ### Quick start
 
 ```bash
