@@ -99,9 +99,9 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 
 | Stage | Model | Findings | Cost | Time |
 |-------|-------|----------|------|------|
-| 8 focused OWASP passes | Sonnet | 203 unique actionable | ~$4.00 | ~6min (parallel) |
-| Exploit chain analysis | Opus | 14 new (6 chains, 4 gaps, 4 bypasses) | ~$6.36 | ~7min |
-| **Full pipeline** | | **217 total** | **~$10.34** | **~13min** |
+| 8 focused OWASP passes | Sonnet | 8 passes, parallel | ~$4.00 | ~6min |
+| Exploit chain analysis | Opus | 6 chains, 4 gaps, 4 bypasses | ~$6.36 | ~7min |
+| **Full pipeline** | | **74/111 challenges found (67%)** | **~$10.34** | **~13min** |
 
 ### Model comparison (Juice Shop benchmark)
 
@@ -109,7 +109,7 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 |-------|-----------|----------|--------|------|
 | Haiku | 1 injection pass | 7/11 (64%) | 0 | $0.07 |
 | Sonnet | 1 injection pass | 11/11 (100%) | 0 | $0.56 |
-| Sonnet | 8 focused passes | 203 | ~176 vs Opus blind | $3.99 |
+| Sonnet | 8 focused passes | 74/111 challenges | ~2.5x Opus blind recall | $3.99 |
 | Opus | 1 blind pass | 34 | 7 | $4.04 |
 | Opus | Informed (with Sonnet) | 14 new | All 14 new | $6.36 |
 
@@ -136,7 +136,7 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 | Security through Obscurity | 3 | Not coverable — steganography, hidden content |
 | Miscellaneous | 7 | Not coverable — chatbot manipulation, scoreboard |
 
-**Static analysis covers ~75 of 111 challenges** (the ones with server-side code signatures). The remaining ~36 require runtime interaction (CAPTCHA bypass, DOM XSS, chatbot abuse, steganography) or client-side browser testing.
+**Pipeline found 74 of 111 challenges (67%).** The 37 missed break down as: 12 require runtime/browser interaction (CAPTCHA, DOM XSS, chatbot), 9 are data/content challenges not code vulns (steganography, geo stalking), 7 are input validation edge cases, 6 are misc/obscurity, 3 are insecure deserialization variants.
 
 ### Quick start
 
