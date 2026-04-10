@@ -136,7 +136,22 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 | Security through Obscurity | 3 | Not coverable — steganography, hidden content |
 | Miscellaneous | 7 | Not coverable — chatbot manipulation, scoreboard |
 
-**Pipeline found 74 of 111 challenges (67%).** The 37 missed break down as: 12 require runtime/browser interaction (CAPTCHA, DOM XSS, chatbot), 9 are data/content challenges not code vulns (steganography, geo stalking), 7 are input validation edge cases, 6 are misc/obscurity, 3 are insecure deserialization variants.
+**Pipeline found 74 of 111 challenges (67%).** Against the ~75 that are reachable via static source analysis, that's 74/75 (99%). The 37 missed require runtime interaction, browser testing, or content analysis.
+
+Difficulty breakdown of the 74 found:
+
+| Difficulty | Found | Includes |
+|-----------|-------|----------|
+| 1-star (trivial) | 6 | Error Handling, Exposed Metrics |
+| 2-star (easy) | 13 | Login Admin, Admin Section, Reflected XSS |
+| 3-star (medium) | 17 | NoSQL Manipulation, XXE Data Access, CSRF |
+| 4-star (hard) | 18 | Christmas Special SQLi, CSP Bypass, Zip Slip path traversal |
+| 5-star (very hard) | 12 | Unsigned JWT, NoSQL Exfiltration, Local File Read, 2FA bypass |
+| 6-star (maximum) | 8 | Forged Signed JWT, SSTi, SSRF, Arbitrary File Write |
+
+**8 of 12 max-difficulty challenges found.** The 4 missed 6-star challenges all require runtime execution (Web3 wallet depletion, video XSS, RCE DoS, meta/hidden challenge).
+
+The 37 missed break down as: 12 require runtime/browser interaction (CAPTCHA, DOM XSS, chatbot), 9 are data/content challenges (steganography, geo stalking), 7 are input validation edge cases, 6 are misc/obscurity, 3 are insecure deserialization variants.
 
 ### Quick start
 
