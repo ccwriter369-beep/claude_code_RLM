@@ -190,8 +190,9 @@ The master document grows one section per pass — new passes are inserted befor
 
 ### Security Audit (`templates/security-audit.md`)
 
-Three-tier model escalation: Haiku (extraction) → Sonnet (exploitability) → Opus (exploit chains).
-Opus is triggered when the orchestrator sees 2+ critical-trio hits (injection, IDOR, broken auth) plus other categories in the Sonnet findings.
+Two-tier model for security: Sonnet (all passes) → Opus (exploit chain analysis, when escalated).
+Haiku is not used for security — it misses 36% of vulns (validated on Juice Shop: 7/11 vs 11/11).
+Opus is triggered when the orchestrator sees 2+ critical-trio hits (injection, IDOR, broken auth) plus other categories.
 
 A structured 8-pass OWASP-aligned audit template with:
 - Phase 0 recon patterns for mapping attack surface

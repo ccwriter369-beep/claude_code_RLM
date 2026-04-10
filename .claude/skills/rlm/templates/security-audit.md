@@ -84,9 +84,10 @@ print(f'{len(paths)} chunks written')
 Each template gives the sub-LLM a numbered list of specific questions. This produces
 precise findings with exact code evidence, not vague "this looks risky" output.
 
-**Agent selection**: Use `rlm-subcall-security` (Sonnet) instead of the default
-`rlm-subcall` (Haiku) for audit passes. Sonnet traces data flows and reasons about
-exploitability; Haiku extracts information but misses multi-step attack chains.
+**Model**: Always use Sonnet for security subcalls. Do not use Haiku.
+Tested on Juice Shop: Sonnet found 11/11 injection-class vulns, Haiku found 7/11.
+Haiku misses configuration-level vulns (XXE, SSTI) and multi-hop data flows
+(stored XSS via headers, ORM bypass). The cost difference is negligible per chunk.
 
 ### Template A: Injection Hunting
 
