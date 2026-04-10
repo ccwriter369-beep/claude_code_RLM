@@ -91,6 +91,41 @@ git clone https://github.com/Brainqub3/claude_code_RLM.git
 cd claude_code_RLM
 ```
 
+## Security Audit Template
+
+The RLM pipeline includes a security audit template (`templates/security-audit.md`) for defensive vulnerability scanning. Validated on OWASP Juice Shop with benchmarked results.
+
+### Pipeline: Sonnet 8-pass + Opus chain analysis
+
+| Stage | Model | Findings | Cost | Time |
+|-------|-------|----------|------|------|
+| 8 focused OWASP passes | Sonnet | 92 | ~$4.00 | ~6min (parallel) |
+| Exploit chain analysis | Opus | 14 new (6 chains, 4 gaps, 4 bypasses) | ~$6.36 | ~7min |
+| **Full pipeline** | | **106 total** | **~$10.34** | **~13min** |
+
+### Model comparison (Juice Shop benchmark)
+
+| Model | Pass Type | Findings | Unique | Cost |
+|-------|-----------|----------|--------|------|
+| Haiku | 1 injection pass | 7/11 (64%) | 0 | $0.07 |
+| Sonnet | 1 injection pass | 11/11 (100%) | 0 | $0.56 |
+| Sonnet | 8 focused passes | 92 | ~58 vs Opus blind | $3.99 |
+| Opus | 1 blind pass | 34 | 7 | $4.04 |
+| Opus | Informed (with Sonnet) | 14 new | All 14 new | $6.36 |
+
+**Key finding**: Sonnet 8-pass beats Opus blind (92 vs 34 findings) at the same cost (~$4). Focus beats power. Opus adds value as a closer, not a replacement.
+
+### Quick start
+
+```bash
+# 1. Assemble context for a target project
+bash .claude/skills/rlm/scripts/assemble_audit_context.sh /path/to/project
+
+# 2. Run passes via /rlm skill
+/rlm context=.claude/rlm_state/audit_injection_context.txt \
+  query="Security audit pass 1 (Injection) using templates/security-audit.md"
+```
+
 ## Repository Structure
 
 ```
@@ -98,12 +133,17 @@ cd claude_code_RLM
 ├── CLAUDE.md                          # Project instructions for Claude Code
 ├── .claude/
 │   ├── agents/
-│   │   └── rlm-subcall.md            # Sub-LLM agent definition (Haiku)
+│   │   ├── rlm-subcall.md            # Sub-LLM agent (Haiku, general use)
+│   │   ├── rlm-subcall-security.md   # Security sub-LLM (Sonnet, data flow tracing)
+│   │   └── rlm-subcall-security-opus.md # Chain analysis (Opus, escalation only)
 │   └── skills/
 │       └── rlm/
 │           ├── SKILL.md              # RLM skill definition
+│           ├── templates/
+│           │   └── security-audit.md # 8-pass OWASP audit runbook
 │           └── scripts/
-│               └── rlm_repl.py       # Persistent Python REPL
+│               ├── rlm_repl.py       # Persistent Python REPL
+│               └── assemble_audit_context.sh # Context assembly helper
 ├── context/                           # Recommended location for large context files
 └── README.md
 ```
