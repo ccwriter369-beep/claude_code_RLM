@@ -99,9 +99,9 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 
 | Stage | Model | Findings | Cost | Time |
 |-------|-------|----------|------|------|
-| 8 focused OWASP passes | Sonnet | 92 | ~$4.00 | ~6min (parallel) |
+| 8 focused OWASP passes | Sonnet | 203 unique actionable | ~$4.00 | ~6min (parallel) |
 | Exploit chain analysis | Opus | 14 new (6 chains, 4 gaps, 4 bypasses) | ~$6.36 | ~7min |
-| **Full pipeline** | | **106 total** | **~$10.34** | **~13min** |
+| **Full pipeline** | | **217 total** | **~$10.34** | **~13min** |
 
 ### Model comparison (Juice Shop benchmark)
 
@@ -109,7 +109,7 @@ The RLM pipeline includes a security audit template (`templates/security-audit.m
 |-------|-----------|----------|--------|------|
 | Haiku | 1 injection pass | 7/11 (64%) | 0 | $0.07 |
 | Sonnet | 1 injection pass | 11/11 (100%) | 0 | $0.56 |
-| Sonnet | 8 focused passes | 92 | ~58 vs Opus blind | $3.99 |
+| Sonnet | 8 focused passes | 203 | ~176 vs Opus blind | $3.99 |
 | Opus | 1 blind pass | 34 | 7 | $4.04 |
 | Opus | Informed (with Sonnet) | 14 new | All 14 new | $6.36 |
 
